@@ -83,6 +83,12 @@ def euler2(n, m):
     else:
         return (2*n-m-1)*euler2(n-1, m-1) + (m+1)*euler2(n-1, m)
 
+# Fibonacci Facts
+# [[1,1],[1,0]] mat mul for O(log n)
+# Zeckendorf's theorem - greedily choose largest fibonacci to represent
+# Pisano Period - last one/two/three/four digits repeat 
+# with period 60/300/1500/15000 respectively
+
 # Burnside's lemma
 # X = set of all possible ways to arrange
 # G = set of rotations
