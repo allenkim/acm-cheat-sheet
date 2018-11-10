@@ -363,3 +363,47 @@ class Polygon:
 
         return S
 
+
+# Art Gallery Problem
+# Given: 
+# polygon P to describe the art gallery
+# a set of pointsS to describe the guards where each guard is represented by a point in P
+# a rule that a point A in S can guard another point B in P iff (A in S), (B in P), and
+# a line segment AB is contained in P
+# a question whether all points in P are guarded by S
+# 4 Variants:
+# 1) Determine the upper bound of the smallest size of set S
+# 2) Determine if there exists a critical point C in polygon P and there exists another point D
+# in P such that if the guard is not at position C, the guard cannot protect point D
+# 3) Determine if the polygon P can be guarded with just one guard
+# 4) Determine the smallest size of set S if the guards can only be placed at the vertices
+# of polygon P and only the verticies need to be guarded
+# Solutions:
+# 1) floor(n/3) are always sufficient and sometimes necessary to guard a simple polygon with n vertices
+# 2) The solution for variant 2 involves testing if polygon P is concave (and thus has a critical point). 
+# We can use the negation of isConvex
+# The solution for variant 3 can be hard if one has not seen the solution before. We can use the
+# cutPolygon function. We cut polygon P with all lines formed by the edges in P in counterclockwise
+# fashion and retain the left side at all times. If we simply have a non-empty polygon at the end
+# one guard can be placed in the non-empty polygon which can protect the entire polygon P
+# The solution for variant 4 involves the computation of the minimum vertex cover of of the
+# "visibility" graph of polygon P. In general this is another NP-hard problem
+
+# Great Circle
+# The Great Circle Distance between any two points is the shortest distance along a path on the
+# surface of the sphere. This path is an arc of the Great-Circle of that sphere that pass 
+# through the two points. The Great circle cuts the sphere into two equal hemispheres
+# to find the great-circle distance, we find the central angle AOB
+# of the great-circle where O is the center of the great-circle. We can then determine
+# the length of the arc A-B, which is the required Great-Circle distance
+def great_circle_distance(plat, plong, qlat, qlong, radius):
+    plat *= math.pi / 180
+    plong *= math.pi/ 180
+    qlat *= math.pi / 180
+    qlong *= math.pi / 180
+    acos = math.acos
+    cos = math.cos
+    sin = math.sin
+    return radius * acos(cos(plat)*cos(plong)*cos(qlat)*cos(qlong) +
+            cos(plat)*sin(plong)*cos(qlat)*sin(qlong)+
+            sin(plat)*sin(qlat))
