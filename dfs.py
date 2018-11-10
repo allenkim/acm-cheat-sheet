@@ -19,10 +19,11 @@ def dfs(vertex):
 		return 
 	nodes[vertex].sort(key = lambda x: x[1])
 	for to in nodes[vertex]:
-		if visited[to]:
+		if visited[to[0]]:
 			continue
-		dfs(vertex)
-		
+		dfs(to[0])
+
+dfs(0)		
 print(visited[goal])	
 		
 	
