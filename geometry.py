@@ -1,6 +1,25 @@
 import math
 import numbers
 
+def cmp_to_key(mycmp):
+    'Convert a cmp= function into a key= function'
+    class K:
+        def __init__(self, obj, *args):
+            self.obj = obj
+        def __lt__(self, other):
+            return mycmp(self.obj, other.obj) < 0
+        def __gt__(self, other):
+            return mycmp(self.obj, other.obj) > 0
+        def __eq__(self, other):
+            return mycmp(self.obj, other.obj) == 0
+        def __le__(self, other):
+            return mycmp(self.obj, other.obj) <= 0
+        def __ge__(self, other):
+            return mycmp(self.obj, other.obj) >= 0
+        def __ne__(self, other):
+            return mycmp(self.obj, other.obj) != 0
+    return K
+
 EPS=1e-6
 class Point:
     def __init__(self, x, y):
@@ -18,9 +37,7 @@ class Point:
 
     def set(self, other):
         self.x = other.x
-        self.y = other.y
-
-    @staticmethod
+        self.y = other.y @staticmethod
     def distance(p1, p2):
         return math.sqrt((p1.x - p2.x)**2 + (p1.y - p2.y)**2)
 
@@ -272,4 +289,77 @@ class Polygon:
                 s -= angle(p[i], pt, p[i + 1])
 
         return abs(abs(s) - 2*math.pi) < EPS
+
+    # cut polygon q using line segment a-b
+    @staticmethod
+    def cut_polygon(a, b, Q):
+        # line segment p-q intersects with lien A-B
+        def line_intersect_segment(p, q, A, B):
+            a = B.y - A.y
+            b = A.x - B.x
+            c = B.x * A.y - A.x * B.y
+            u = abs(a * p.x + b * p.y + c)
+            v = abs(a * q.x + b * q.y + c)
+            return Point((p.x * v + q.x * u)/(u + v), (p.y * v + q.y * u) /(u + v))
+        P = []
+        for i in range(len(Q)):
+            left1 = Vector.from_points(a, b) % Vector.from_points(a, Q[i])
+            left2 = 0
+            if i != len(Q) - 1:
+                left2 = Vector.from_points(a, b) % Vector.from_points(a, Q[i + 1])
+            if left1 > -EPS:
+                P.append(Q[i]) # Q[i] is on the left of ab
+            if left1 * left2 < -EPS:
+                P.append(line_intersect_segment(Q[i], Q[i + 1], a, b))
+
+        if len(P) != 0 and not (P[0] == P[-1]):
+            P.append(P[0])
+
+        return P
+
+    @staticmethod
+    def convex_hull(P):
+        def angle_cmp_generator(pivot):
+            def angle_cmp(a, b):
+                if is_collinear(pivot, a, b):
+                    da = Point.distance(pivot, a)
+                    db = Point.distance(pivot, b)
+                    return -1 if da < db else (0 if da == db else 1)
+
+                d1x, d1y = a.x - pivot.x, a.y - pivot.y
+                d2x, d2y = b.x - pivot.x, b.y - pivot.y
+
+                theta1 = math.atan2(d1y, d1x)
+                theta2 = math.atan2(d2y, d2x)
+                return -1 if theta1 < theta2 else (0 if theta1 == theta2 else 1)
+
+            return angle_cmp
+
+        n = len(P)
+        if n <= 3:
+            if not (P[0] == P[-1]):
+                P.push_back(P[0])
+            return P
+
+        P0 = 0
+        for i in range(n):
+            if P[i].y < P[P0].y or (P[i].y == P[P0].y and P[i].x > P[P0].x):
+                P0 = i
+
+        P[0], P[P0] = P[P0], P[0]
+        P = sorted(P, key=cmp_to_key(angle_cmp_generator(P[0])))
+        S = []
+        S.append(P[-1])
+        S.append(P[0])
+        S.append(P[1])
+        i = 2
+        while i < n:
+            j = len(S) - 1
+            if is_counter_clockwise(S[j - 1], S[j], P[i]):
+                S.append(P[i])
+                i += 1
+            else:
+                S.pop()
+
+        return S
 
