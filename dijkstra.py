@@ -34,7 +34,7 @@ def dijk(start):
 			alt = v[0] + n[1] #start to cur + cur to next
 			if (alt < distance[n[0]]): #shorter path, update
 				distance[n[0]] = alt 
-				prev[n[0]] = v[0]
+				prev[n[0]] = v[1]
 				for i in range(len(unvisited)):
 					if (unvisited[i][1] == n[0]):
 						unvisited[i] = (alt, n[0])
