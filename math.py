@@ -317,8 +317,9 @@ def extended_euclid(a, b):
         x, y, d = extended_euclid(b, a % b)
         return (y, x - (a // b) * y, d)
 
-# x = x0 + (b//d)*n
-# y = y0 - (a//d)*n
+# the prime means we have to multiply by c//d to get a solution
+# x = x0' + (b//d)*n
+# y = y0' - (a//d)*n
 
 ########################
 # GAUSSIAN ELIMINATION #
