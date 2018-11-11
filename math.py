@@ -26,10 +26,6 @@ def cat(n):
     else:
         return (4*n-2)*Cat(n-1)//(n+1)
 
-sieve_size = 10000001
-bs = [True] * 10000010
-primes = []
-
 # number of permutations such that none appear in original position
 @lru_cache(maxsize=None)
 def der(n):
@@ -164,6 +160,10 @@ def floyd_cycle(f, x0):
 ##################################
 # COMMON NUMBER THEORY FUNCTIONS #
 ##################################
+sieve_size = 10000001
+bs = [True] * 10000010
+primes = []
+
 
 def sieve():
     bs[0] = bs[1] = False
