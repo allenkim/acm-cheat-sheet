@@ -400,5 +400,3 @@ def RtoA(R):
         i += 1
     return value
 
-print(RtoA('IX'))
-
