@@ -1,9 +1,3 @@
-#sort edges
-
-#create disjoint set of indices
-
-#for each edge, attempt to add if not same same
-
 from collections import defaultdict
 class UFDS:
 	def __init__(self, vertices):
@@ -31,7 +25,18 @@ class UFDS:
 			if (self.rank[x] == self.rank[y]):
 				self.rank[y] += 1
 
-	def isSameSet(self, a, b):
+	def is_same_set(self, a, b):
 		return self.find(a) == self.find(b)	
 
+# V: number of vertices
+# edge_list: [(w,u,v),...] (weight, start, end)
+def kruskal(V, edge_list):
+    edge_list.sort()
+    mst_cost = 0
+    UF = UFDS(V)
+    for w, u, v in edge_list:
+        if not UF.is_same_set(u, v):
+            mst_cost += w
+            UF.union(u, v)
+    return mst_cost
 
