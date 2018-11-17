@@ -338,7 +338,7 @@ class Polygon:
         n = len(P)
         if n <= 3:
             if not (P[0] == P[-1]):
-                P.push_back(P[0])
+                P.append(P[0])
             return P
 
         P0 = 0
