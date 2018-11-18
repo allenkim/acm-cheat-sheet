@@ -68,7 +68,7 @@ def euler1(n, m):
 # The permutations of the multiset {1, 1, 2, 2, ···, n, n} which have the 
 # property that for each k, all the numbers appearing between the two 
 # occurrences of k in the permutation are greater than k are counted by the 
-# double factorial number (2n−1)!!. The Eulerian number of the second kind 
+# double factorial number (2n−1)!! The Eulerian number of the second kind 
 # counts the number of all such permutations that have exactly m ascents.
 @lru_cache(maxsize=None)
 def euler2(n, m):
