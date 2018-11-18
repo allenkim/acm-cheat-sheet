@@ -34,3 +34,15 @@ def kruskal(V, edge_list):
             UF.union(u, v)
     return mst_cost
 
+V, E = [int(i) for i in input().split()]
+while V != 0:
+    edge_list = []
+    total = 0
+    for _ in range(E):
+        x, y, z = [int(i) for i in input().split()]
+        total += z
+        edge_list.append((z,x,y))
+    mst = kruskal(V, edge_list)
+    print(total-mst)
+    V, E = [int(i) for i in input().split()]
+
