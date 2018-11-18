@@ -1,6 +1,41 @@
 import math
 import numbers
 
+def main():
+    kingdoms = []
+    while True:
+        npoints = int(input())
+        if npoints == -1:
+            break
+
+        points = [Point(*map(int, input().split())) for _ in range(npoints)]
+        kingdoms.append(tuple(Polygon.convex_hull(points)))
+    missiles = []
+    while True:
+        try:
+            missile = Point(*map(int, input().split()))
+            missiles.append(missile)
+        except EOFError:
+            break
+
+    without_electricity = 0
+    for kingdom in kingdoms:
+        hit = False
+        for missile in missiles:
+            if Polygon.in_polygon(missile, kingdom):
+                hit = True
+                break
+
+        if hit:
+            without_electricity += Polygon.area(kingdom)
+
+    print("{:0.2f}".format(without_electricity))
+
+
+        
+
+    
+
 def cmp_to_key(mycmp):
     'Convert a cmp= function into a key= function'
     class K:
@@ -337,16 +372,8 @@ class Polygon:
 
         n = len(P)
         if n <= 3:
-            if n == 1:
+            if not (P[0] == P[-1]):
                 P.append(P[0])
-            elif not (P[0] == P[-1]):
-                P = sorted(P, key=cmp_to_key(angle_cmp_generator(P[0])))
-                P.append(P[0])
-            else:
-                P.pop()
-                P = sorted(P, key=cmp_to_key(angle_cmp_generator(P[0])))
-                P.append(P[0])
-
             return P
 
         P0 = 0
@@ -415,3 +442,8 @@ def great_circle_distance(plat, plong, qlat, qlong, radius):
     return radius * acos(cos(plat)*cos(plong)*cos(qlat)*cos(qlong) +
             cos(plat)*sin(plong)*cos(qlat)*sin(qlong)+
             sin(plat)*sin(qlat))
+
+
+if __name__ == '__main__':
+    main()
+

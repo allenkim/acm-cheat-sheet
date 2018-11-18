@@ -1,6 +1,28 @@
 import math
 import numbers
 
+def main():
+    region_number = 0
+    while True:
+        ntraps = int(input())
+        if ntraps == 0:
+            break
+
+        region_number += 1
+
+        traps = [Point(*map(float, input().split())) for _ in range(ntraps)]
+        traps = Polygon.convex_hull(traps)
+        perimeter = Polygon.perimeter(traps)
+        print("Region #{}:".format(region_number))
+        print("({:.1f},{:.1f})".format(traps[0].x, traps[0].y), end="")
+        for trap in reversed(traps[1:-1]):
+            print("-({:0.1f},{:0.1f})".format(trap.x, trap.y), end="")
+        print("-({:.1f},{:.1f})".format(traps[0].x, traps[0].y))
+
+        print("Perimeter length = {:0.2f}\n".format(perimeter))
+
+
+
 def cmp_to_key(mycmp):
     'Convert a cmp= function into a key= function'
     class K:
@@ -415,3 +437,6 @@ def great_circle_distance(plat, plong, qlat, qlong, radius):
     return radius * acos(cos(plat)*cos(plong)*cos(qlat)*cos(qlong) +
             cos(plat)*sin(plong)*cos(qlat)*sin(qlong)+
             sin(plat)*sin(qlat))
+
+if __name__ == '__main__':
+    main()
