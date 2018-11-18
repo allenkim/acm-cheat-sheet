@@ -26,10 +26,6 @@ def cat(n):
     else:
         return (4*n-2)*Cat(n-1)//(n+1)
 
-sieve_size = 10000001
-bs = [True] * 10000010
-primes = []
-
 # number of permutations such that none appear in original position
 @lru_cache(maxsize=None)
 def der(n):
@@ -164,6 +160,10 @@ def floyd_cycle(f, x0):
 ##################################
 # COMMON NUMBER THEORY FUNCTIONS #
 ##################################
+sieve_size = 10000001
+bs = [True] * 10000010
+primes = []
+
 
 def sieve():
     bs[0] = bs[1] = False
@@ -317,8 +317,9 @@ def extended_euclid(a, b):
         x, y, d = extended_euclid(b, a % b)
         return (y, x - (a // b) * y, d)
 
-# x = x0 + (b//d)*n
-# y = y0 - (a//d)*n
+# the prime means we have to multiply by c//d to get a solution
+# x = x0' + (b//d)*n
+# y = y0' - (a//d)*n
 
 ########################
 # GAUSSIAN ELIMINATION #
@@ -398,6 +399,4 @@ def RtoA(R):
             value += cvt[R[i]]
         i += 1
     return value
-
-print(RtoA('IX'))
 
