@@ -337,8 +337,16 @@ class Polygon:
 
         n = len(P)
         if n <= 3:
-            if not (P[0] == P[-1]):
+            if n == 1:
                 P.append(P[0])
+            elif not (P[0] == P[-1]):
+                P = sorted(P, key=cmp_to_key(angle_cmp_generator(P[0])))
+                P.append(P[0])
+            else:
+                P.pop()
+                P = sorted(P, key=cmp_to_key(angle_cmp_generator(P[0])))
+                P.append(P[0])
+
             return P
 
         P0 = 0
